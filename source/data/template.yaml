@@ -1,0 +1,20 @@
+Object:
+    Name     :
+    ShortName:
+    Shape    : Pyramid
+    Color    : "#ffffff50"
+    Position :
+        Latitude :
+        Longitude:
+        Altitude :
+    Orientation:
+        Roll : 0
+        Pitch:
+        Yaw  :
+    Size:
+        Width :
+        Length:
+        Height:
+    BaseSize:
+      Width : 100
+      Height: 100

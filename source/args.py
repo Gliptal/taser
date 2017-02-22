@@ -1,8 +1,7 @@
 import argparse
 import sys
 
-import yaml
-
+import fileio
 import log
 
 
@@ -21,6 +20,13 @@ def parse():
     global RANGE
     global TARGET
     global FILE
+    global LEEWAY
+    global BASE
+    global ROLL
+    global TRACK
+    global PICKLE
+    global ABORT
+    global FLOOR
 
     parser = argparse.ArgumentParser(description="generate .xml files to visually render SLED attack profiles in the Tacview 3D environment")
     parser.add_argument("range", type=str, help="the range containing the attacked target")
@@ -49,7 +55,7 @@ def parse():
     FLOOR = args.floor
 
 def check_range():
-    ranges = _load_ranges_data()
+    ranges = fileio.load_data("data/ranges.yaml")
 
     found = False
     for item in ranges:
@@ -62,7 +68,7 @@ def check_range():
         sys.exit()
 
 def check_target():
-    ranges = _load_ranges_data()
+    ranges = fileio.load_data("data/ranges.yaml")
 
     for item in ranges:
         if RANGE == item["name"]:
@@ -79,6 +85,23 @@ def check_target():
         log.fail("no such target "+TARGET+" in range "+RANGE)
         sys.exit()
 
+def convert():
+    global LEEWAY
+    global BASE
+    global ROLL
+    global TRACK
+    global PICKLE
+    global ABORT
+    global FLOOR
+
+    LEEWAY *= 0.3048
+    BASE *= 0.3048
+    ROLL *= 0.3048
+    TRACK *= 0.3048
+    PICKLE *= 0.3048
+    ABORT *= 0.3048
+    FLOOR *= 0.3048
+
 def _positive_int(value):
     number = int(value)
     if number < 0:
@@ -90,13 +113,3 @@ def _positive_float(value):
     if number < 0:
         raise argparse.ArgumentTypeError("number must be positive")
     return number
-
-def _load_ranges_data():
-    try:
-        ranges_file = open("data/ranges.yaml")
-        ranges_data = yaml.safe_load(ranges_file)
-    except IOError:
-        log.fail("missing data file")
-        sys.exit()
-    else:
-        return ranges_data

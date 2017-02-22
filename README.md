@@ -1,7 +1,7 @@
-TACVIEW SLEDS RENDERER
+TASER
 ======
 
-Generate `.xml` files to visually render SLED attack profiles in the Tacview 3D environment.
+TAcview SlEds Renderer: generate `.xml` files to visually render SLED attack profiles in the Tacview 3D environment.
 
 FRAMEWORK
 ======
@@ -12,6 +12,7 @@ PLUGINS
 ======
 
 - [colorclass](https://pypi.python.org/pypi/colorclass)
+- [dicttoxml](https://pypi.python.org/pypi/dicttoxml)
 - [PyYAML](http://pyyaml.org/)
 
 CHANGELOG
@@ -31,6 +32,6 @@ LICENSE
 
 [![license](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 
-TSR by [Mattia Affabris](mailto:affa@outlook.it) is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+Taser by [Mattia Affabris](mailto:affa@outlook.it) is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
-Based on a work at [https://github.com/Gliptal/tsr](https://github.com/Gliptal/tsr).
+Based on a work at [https://github.com/Gliptal/taser](https://github.com/Gliptal/taser).

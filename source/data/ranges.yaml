@@ -1,52 +1,62 @@
-- name: 64C
+- name   : 64C
   targets:
-    - name: West-Bomb-Circle
+    - name    : West-Bomb-Circle
       position:
           latitude : 36°40'51"N
           longitude: 115°40'26"W
       altitude: 3035
-    - name: East-Bomb-Circle
+      heading : 355
+    - name    : East-Bomb-Circle
       position:
           latitude : 36°40'37"
           longitude: 115°38'13"
       altitude: 3022
-    - name: TAC-Target-Hard
+      heading : 355
+    - name    : TAC-Target-Hard
       position:
           latitude : 36°40'36"N
           longitude: 115°38'01"W
       altitude: 3045
-    - name: TAC-Target-Soft
+      heading : 355
+    - name    : TAC-Target-Soft
       position:
           latitude : 36°40'35"N
           longitude: 115°37'50"W
       altitude: 3071
-    - name: Strafe-Lane-L1
+      heading : 355
+    - name    : Strafe-Lane-L1
       position:
           latitude : 36°41'38"N
           longitude: 115°39'05"W
       altitude: 3009
-    - name: Strafe-Lane-L2
+      heading : 355
+    - name    : Strafe-Lane-L2
       position:
           latitude : 36°41'38"N
           longitude: 115°39'03"W
       altitude: 3009
-    - name: Strafe-Lane-L3
+      heading : 355
+    - name    : Strafe-Lane-L3
       position:
           latitude : 36°41'38"N
           longitude: 115°39'01"W
       altitude: 3009
-    - name: Strafe-Lane-R1
+      heading : 355
+    - name    : Strafe-Lane-R1
       position:
           latitude : 36°41'36"N
           longitude: 115°38'45"W
       altitude: 3005
-    - name: Strafe-Lane-R2
+      heading : 355
+    - name    : Strafe-Lane-R2
       position:
           latitude : 36°41'36"N
           longitude: 115°38'43"W
       altitude: 3005
-    - name: Strafe-Lane-R3
+      heading : 355
+    - name    : Strafe-Lane-R3
       position:
           latitude : 36°41'36"N
           longitude: 115°38'41"W
       altitude: 3005
+      heading : 355
