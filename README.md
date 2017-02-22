@@ -11,6 +11,7 @@ The development framework is powered by [python](https://www.python.org/), and t
 PLUGINS
 ======
 
+- [colorclass](https://pypi.python.org/pypi/colorclass)
 - [PyYAML](http://pyyaml.org/)
 
 CHANGELOG
