@@ -1,20 +1,75 @@
-Object:
-    Name     :
-    ShortName:
-    Shape    : Pyramid
-    Color    : "#ffffff50"
-    Position :
-        Latitude :
-        Longitude:
-        Altitude :
-    Orientation:
-        Roll : 0
-        Pitch:
-        Yaw  :
-    Size:
-        Width :
-        Length:
-        Height:
-    BaseSize:
-      Width : 100
-      Height: 100
+- Name     :
+  ShortName:
+  Shape    : Pyramid
+  Color    : "#ffffff60"
+  Position :
+      Latitude :
+      Longitude:
+      Altitude :
+  Orientation:
+      Roll : 0
+      Pitch:
+      Yaw  :
+  Size:
+      Width :
+      Length:
+      Height:
+  BaseSize:
+    Width : 100
+    Height: 100
+- Name     :
+  ShortName:
+  Shape    : Cube
+  Color    : "#ff000020"
+  Position :
+      Latitude :
+      Longitude:
+      Altitude :
+  Orientation:
+      Yaw:
+  Size:
+      Width :
+      Length:
+      Height:
+- Name     :
+  ShortName:
+  Shape    : Cube
+  Color    : "#ffa50020"
+  Position :
+      Latitude :
+      Longitude:
+      Altitude :
+  Orientation:
+      Yaw:
+  Size:
+      Width :
+      Length:
+      Height:
+- Name     :
+  ShortName:
+  Shape    : Cube
+  Color    : "#00ff0020"
+  Position :
+      Latitude :
+      Longitude:
+      Altitude :
+  Orientation:
+      Yaw:
+  Size:
+      Width :
+      Length:
+      Height:
+- Name     :
+  ShortName:
+  Shape    : Cube
+  Color    : "#0000ff20"
+  Position :
+      Latitude :
+      Longitude:
+      Altitude :
+  Orientation:
+      Yaw:
+  Size:
+      Width :
+      Length:
+      Height:
