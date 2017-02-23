@@ -8,4 +8,4 @@ def fail(string):
         print(colorize("{hired}[-]{/red}    "+string))
 
 def tentative(string):
-        print(colorize("{hired}[?]{/yellow}    "+string))
+        print(colorize("{hiyellow}[?]{/yellow}    "+string))

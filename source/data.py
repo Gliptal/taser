@@ -1,16 +1,14 @@
-import sys
-
 import yaml
 
 import log
 
 
-def load_data(path):
+def load(path):
     try:
         file = open(path)
         data = yaml.safe_load(file)
+        file.close()
     except IOError:
         log.fail("missing data file")
-        sys.exit()
     else:
         return data

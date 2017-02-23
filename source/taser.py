@@ -9,9 +9,19 @@ import tacview
 
 colorize.enable()
 
-args.parse()
-args.check_range()
-args.check_target()
-args.convert()
+try:
+    args.parse()
+    args.check_range()
+    args.check_target()
+    args.convert()
+except:
+    log.fail("an error occured")
+    sys.exit()
 
-tacview.generate()
+log.tentative("generating "+args.FILE+".xml")
+try:
+    tacview.generate()
+    log.success(args.FILE+".xml generated")
+except:
+    log.fail("an error occured")
+    sys.exit()

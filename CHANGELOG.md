@@ -17,3 +17,9 @@
 #### 0.4.0
 
 + altitude blocks output
+
+#### 0.5.0
+
++ code refactoring
++ coordinates shifter
++ leeway parameters
