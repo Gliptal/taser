@@ -29,6 +29,10 @@
 + usage documentation
 + minor bugfixes
 + heading fix
-+ heading flag
++ heading override
 + conventional ranges data
 + better rendering
+
+#### 0.7.0
+
++ better usage flags
