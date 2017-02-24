@@ -23,3 +23,12 @@
 + code refactoring
 + coordinates shifter
 + leeway parameters
+
+#### 0.6.0-beta1
+
++ usage documentation
++ minor bugfixes
++ heading fix
++ heading flag
++ conventional ranges data
++ better rendering

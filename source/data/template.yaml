@@ -1,7 +1,7 @@
 - Name     :
   ShortName:
   Shape    : Pyramid
-  Color    : "#ffffff60"
+  Color    : "#ffffff90"
   Position :
       Latitude :
       Longitude:
@@ -20,7 +20,7 @@
 - Name     :
   ShortName:
   Shape    : Cube
-  Color    : "#ff000020"
+  Color    : "#ff000060"
   Position :
       Latitude :
       Longitude:
@@ -34,7 +34,7 @@
 - Name     :
   ShortName:
   Shape    : Cube
-  Color    : "#ffa50020"
+  Color    : "#ffa50010"
   Position :
       Latitude :
       Longitude:
@@ -48,7 +48,7 @@
 - Name     :
   ShortName:
   Shape    : Cube
-  Color    : "#00ff0020"
+  Color    : "#00ff0010"
   Position :
       Latitude :
       Longitude:
@@ -62,7 +62,7 @@
 - Name     :
   ShortName:
   Shape    : Cube
-  Color    : "#0000ff20"
+  Color    : "#0000ff10"
   Position :
       Latitude :
       Longitude:

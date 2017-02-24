@@ -1,2 +1,13 @@
+# python
 __pycache__
+
+# generated
 *.xml
+
+#build
+*.ico
+*.spec
+verpatch.exe
+
+#privacy
+ranges.yaml

@@ -14,6 +14,8 @@ try:
     args.check_range()
     args.check_target()
     args.convert()
+except SystemExit:
+    raise
 except:
     log.fail("an error occured")
     sys.exit()
