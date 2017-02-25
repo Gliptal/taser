@@ -16,7 +16,7 @@ BASE_ALT = None
 TRACK_ALT = None
 RELEASE_ALT = None
 ABORT_ALT = None
-FLOOR_ALT = None
+MIN_ALT = None
 
 def parse():
     global RANGE
@@ -25,24 +25,26 @@ def parse():
     global LEEWAY_ALT
     global LEEWAY_HDG
     global ATTACK_HDG
+    global DECLUTTER
     global BASE_DIST
     global BASE_ALT
     global TRACK_ALT
     global RELEASE_ALT
     global ABORT_ALT
-    global FLOOR_ALT
+    global MIN_ALT
 
     parser = argparse.ArgumentParser(description="generate .xml files to visually render SLED attack profiles in the Tacview 3D environment version: 0.6.0-beta1", formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=30))
-    parser.add_argument("-v", "--version", action="version", version="0.7.0")
+    parser.add_argument("-v", "--version", action="version", version="0.8.0-beta2")
 
     parser.add_argument("range", type=str, help="the range containing the attacked target")
     parser.add_argument("target", type=str, help="the attacked target")
 
     optional_options = parser.add_argument_group("optional other parameters")
     optional_options.add_argument("-fn", "--filename", type=str, help="name of the generated .xml file [default: \"sled\"]", metavar="str", default="sled")
-    optional_options.add_argument("-la", "--leewayalt", type=_positive_int, help="available +/- leeway for the SLED's base, release, and track altitudes (in feet) [default: 200ft]", metavar="ft", default=200)
+    optional_options.add_argument("-la", "--leewayalt", type=_positive_int, help="available +/- leeway for the SLED's base, track, and release altitudes (in feet) [default: 200ft]", metavar="ft", default=200)
     optional_options.add_argument("-lh", "--leewayhdg", type=_angle, help="available +/- leeway for the range's attack heading at the SLED's base altitude (in degrees) [default: 10°]", metavar="°", default=10)
     optional_options.add_argument("-ah", "--attackhdg", type=_heading, help="required attack heading, overrides the range's default (in degrees)", metavar="°", default=None)
+    optional_options.add_argument("-dc", "--declutter", action="store_true", help="declutter the target area by rendering the abort and minimum altitudes as planes")
 
     required_options = parser.add_argument_group("required SLED parametes")
     required_options.add_argument("-bd", "--basedist", type=_positive_int, help="base distance (in nautical miles)", metavar="nm", required=True)
@@ -50,7 +52,7 @@ def parse():
     required_options.add_argument("-ta", "--trackalt", type=_positive_float, help="track altitude (in feet MSL)", metavar="ft", required=True)
     required_options.add_argument("-ra", "--releasealt", type=_positive_float, help="release altitude (in feet MSL)", metavar="ft", required=True)
     required_options.add_argument("-aa", "--abortalt", type=_positive_float, help="abort altitude (in feet MSL)", metavar="ft", required=True)
-    required_options.add_argument("-fa", "--flooralt", type=_positive_float, help="minimum altitude (in feet MSL)", metavar="ft", required=True)
+    required_options.add_argument("-ma", "--minalt", type=_positive_float, help="minimum altitude (in feet MSL)", metavar="ft", required=True)
 
     args = parser.parse_args()
 
@@ -60,12 +62,13 @@ def parse():
     LEEWAY_ALT = args.leewayalt
     LEEWAY_HDG = args.leewayhdg
     ATTACK_HDG = args.attackhdg
+    DECLUTTER = args.declutter
     BASE_DIST = args.basedist
     BASE_ALT = args.basealt
     TRACK_ALT = args.trackalt
     RELEASE_ALT = args.releasealt
     ABORT_ALT = args.abortalt
-    FLOOR_ALT = args.flooralt
+    MIN_ALT = args.minalt
 
 def check_range():
     global RANGE
@@ -107,7 +110,7 @@ def convert():
     global TRACK_ALT
     global RELEASE_ALT
     global ABORT_ALT
-    global FLOOR_ALT
+    global MIN_ALT
 
     LEEWAY_ALT = calc.ft_to_m(LEEWAY_ALT)
     if ATTACK_HDG is not None:
@@ -117,7 +120,7 @@ def convert():
     TRACK_ALT = calc.ft_to_m(TRACK_ALT)
     RELEASE_ALT = calc.ft_to_m(RELEASE_ALT)
     ABORT_ALT = calc.ft_to_m(ABORT_ALT)
-    FLOOR_ALT = calc.ft_to_m(FLOOR_ALT)
+    MIN_ALT = calc.ft_to_m(MIN_ALT)
 
 def _positive_int(value):
     number = int(value)

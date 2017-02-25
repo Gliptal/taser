@@ -36,3 +36,9 @@
 #### 0.7.0
 
 + better usage flags
+
+#### 0.8.0-beta2
+
++ wire angle fix
++ heading fix
++ declutter option

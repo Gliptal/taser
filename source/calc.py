@@ -7,7 +7,7 @@ def ft_to_m(ft):
     return ft*0.3048
 
 def thdg_to_mhdg(thdg):
-    return thdg
+    return thdg+19
 
 def reverse_heading(hdg):
     return (hdg+180) % 360
