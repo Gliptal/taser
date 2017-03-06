@@ -16,16 +16,17 @@ def generate():
         attack_heading = calc.reverse_heading(calc.thdg_to_mhdg(args.TARGET["heading"]))
     else:
         attack_heading = calc.reverse_heading(args.ATTACK_HDG)
+    aimdist_lat, aimdist_lon = calc.shift_coords(args.TARGET["position"]["latitude"], args.TARGET["position"]["longitude"], args.AIM_DIST, -calc.reverse_heading(attack_heading))
 
     wire_length = calc.hypotenuse_from_catheti(args.BASE_DIST, base_altitude)
     wire_angle = calc.angle_from_catheti(base_altitude, args.BASE_DIST)
     wire_entry_width = calc.sin_cathetus_from_angle(wire_length, args.LEEWAY_HDG)
     wire_height = args.LEEWAY_ALT*2
 
-    min_lat, min_lon = calc.shift_coords(args.TARGET["position"], args.BASE_DIST*0.3, -attack_heading)
+    min_lat, min_lon = calc.shift_coords(aimdist_lat, aimdist_lon, args.BASE_DIST*0.3, -attack_heading)
     abort_lat, abort_lon = min_lat, min_lon
-    release_lat, release_lon = calc.shift_coords(args.TARGET["position"], calc.cos_cathetus_from_angle(args.RELEASE_ALT-target_altitude, wire_angle), -attack_heading)
-    track_lat, track_lon = calc.shift_coords(args.TARGET["position"], calc.cos_cathetus_from_angle(args.TRACK_ALT-target_altitude, wire_angle), -attack_heading)
+    release_lat, release_lon = calc.shift_coords(aimdist_lat, aimdist_lon, calc.cos_cathetus_from_angle(args.RELEASE_ALT-target_altitude, wire_angle), -attack_heading)
+    track_lat, track_lon = calc.shift_coords(aimdist_lat, aimdist_lon, calc.cos_cathetus_from_angle(args.TRACK_ALT-target_altitude, wire_angle), -attack_heading)
 
     if args.DECLUTTER:
         min_altitude = args.MIN_ALT
@@ -55,8 +56,8 @@ def generate():
     release_height = args.LEEWAY_ALT*2
     track_height = args.LEEWAY_ALT*2
 
-    template[0]["Position"]["Latitude"] = args.TARGET["position"]["latitude"]
-    template[0]["Position"]["Longitude"] = args.TARGET["position"]["longitude"]
+    template[0]["Position"]["Latitude"] = aimdist_lat
+    template[0]["Position"]["Longitude"] = aimdist_lon
     template[0]["Position"]["Altitude"] = target_altitude
     template[0]["Orientation"]["Pitch"] = wire_angle
     template[0]["Orientation"]["Yaw"] = attack_heading

@@ -48,6 +48,7 @@ CLI
 | YES | --releasealt | -ra | SLED's *release* MSL altitude | ft | |
 | YES | --abortalt | -aa | SLED's *abort* MSL altitude | ft | |
 | YES | --minalt | -ma | SLED's *mimimum* MSL altitude | ft | |
+| YES | --aimdist | -ad | aim-off distance | ft | |
 | | --filename | -fn | name of the generated `.xml` file | | "sled" |
 | | --leewayalt | -la | available +/- leeway for the SLED's *base*, *track*, and *release* altitudes | ft | 200ft |
 | | --leewayhdg | -lh | available +/- leeway for the range's attack heading at the SLED's *base* altitude | ° | 10° |

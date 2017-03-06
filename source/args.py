@@ -17,6 +17,7 @@ TRACK_ALT = None
 RELEASE_ALT = None
 ABORT_ALT = None
 MIN_ALT = None
+AIM_DIST = None
 
 def parse():
     global RANGE
@@ -32,6 +33,7 @@ def parse():
     global RELEASE_ALT
     global ABORT_ALT
     global MIN_ALT
+    global AIM_DIST
 
     parser = argparse.ArgumentParser(description="generate .xml files to visually render SLED attack profiles in the Tacview 3D environment version: 0.6.0-beta1", formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=30))
     parser.add_argument("-v", "--version", action="version", version="0.8.0-beta2")
@@ -53,6 +55,7 @@ def parse():
     required_options.add_argument("-ra", "--releasealt", type=_positive_float, help="release altitude (in feet MSL)", metavar="ft", required=True)
     required_options.add_argument("-aa", "--abortalt", type=_positive_float, help="abort altitude (in feet MSL)", metavar="ft", required=True)
     required_options.add_argument("-ma", "--minalt", type=_positive_float, help="minimum altitude (in feet MSL)", metavar="ft", required=True)
+    required_options.add_argument("-ad", "--aimdist", type=_positive_float, help="aim-off distance (in feet)", metavar="ft", required=True)
 
     args = parser.parse_args()
 
@@ -69,6 +72,7 @@ def parse():
     RELEASE_ALT = args.releasealt
     ABORT_ALT = args.abortalt
     MIN_ALT = args.minalt
+    AIM_DIST = args.aimdist
 
 def check_range():
     global RANGE
@@ -111,6 +115,7 @@ def convert():
     global RELEASE_ALT
     global ABORT_ALT
     global MIN_ALT
+    global AIM_DIST
 
     LEEWAY_ALT = calc.ft_to_m(LEEWAY_ALT)
     if ATTACK_HDG is not None:
@@ -121,6 +126,7 @@ def convert():
     RELEASE_ALT = calc.ft_to_m(RELEASE_ALT)
     ABORT_ALT = calc.ft_to_m(ABORT_ALT)
     MIN_ALT = calc.ft_to_m(MIN_ALT)
+    AIM_DIST = calc.ft_to_m(AIM_DIST)
 
 def _positive_int(value):
     number = int(value)

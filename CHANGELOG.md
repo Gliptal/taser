@@ -42,3 +42,9 @@
 + wire angle fix
 + heading fix
 + declutter option
+
+#### 0.9.0-beta3
+
++ wire origin fix
++ aim-off distance option
++ heading fix

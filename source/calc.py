@@ -7,7 +7,7 @@ def ft_to_m(ft):
     return ft*0.3048
 
 def thdg_to_mhdg(thdg):
-    return thdg+19
+    return thdg+11
 
 def reverse_heading(hdg):
     return (hdg+180) % 360
@@ -24,9 +24,9 @@ def sin_cathetus_from_angle(l, a):
 def cos_cathetus_from_angle(h, a):
     return h/math.tan(math.radians(a))
 
-def shift_coords(coords, dist, hdg):
-    lat = _dms_to_dd(coords["latitude"])
-    lon = _dms_to_dd(coords["longitude"])
+def shift_coords(lat, lon, dist, hdg):
+    lat = _dms_to_dd(lat)
+    lon = _dms_to_dd(lon)
 
     origin = geopy.Point(lat, lon)
     destination = geopy.distance.VincentyDistance(kilometers=dist/1000).destination(origin, hdg)
