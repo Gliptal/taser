@@ -48,3 +48,10 @@
 + wire origin fix
 + aim-off distance option
 + heading fix
+
+#### 0.10.0
+
++ make script
++ test script
++ xml nodes ordering
++ debug option

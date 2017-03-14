@@ -5,6 +5,7 @@ import data
 import log
 
 
+DEBUG = None
 RANGE = None
 TARGET = None
 FILE = None
@@ -20,6 +21,7 @@ MIN_ALT = None
 AIM_DIST = None
 
 def parse():
+    global DEBUG
     global RANGE
     global TARGET
     global FILE
@@ -35,13 +37,14 @@ def parse():
     global MIN_ALT
     global AIM_DIST
 
-    parser = argparse.ArgumentParser(description="generate .xml files to visually render SLED attack profiles in the Tacview 3D environment version: 0.6.0-beta1", formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=30))
-    parser.add_argument("-v", "--version", action="version", version="0.8.0-beta2")
+    parser = argparse.ArgumentParser(description="generate .xml files to visually render SLED attack profiles in the Tacview 3D environment", formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=30))
+    parser.add_argument("-v", "--version", action="version", version="0.10.0")
 
     parser.add_argument("range", type=str, help="the range containing the attacked target")
     parser.add_argument("target", type=str, help="the attacked target")
 
     optional_options = parser.add_argument_group("optional other parameters")
+    optional_options.add_argument("-d", "--debug", action="store_true", help="show more exhaustive error messages")
     optional_options.add_argument("-fn", "--filename", type=str, help="name of the generated .xml file [default: \"sled\"]", metavar="str", default="sled")
     optional_options.add_argument("-la", "--leewayalt", type=_positive_int, help="available +/- leeway for the SLED's base, track, and release altitudes (in feet) [default: 200ft]", metavar="ft", default=200)
     optional_options.add_argument("-lh", "--leewayhdg", type=_angle, help="available +/- leeway for the range's attack heading at the SLED's base altitude (in degrees) [default: 10°]", metavar="°", default=10)
@@ -59,6 +62,7 @@ def parse():
 
     args = parser.parse_args()
 
+    DEBUG = args.debug
     RANGE = args.range
     TARGET = args.target
     FILE = args.filename

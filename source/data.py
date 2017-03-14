@@ -2,6 +2,7 @@ import os
 import sys
 
 import yaml
+import yamlordereddictloader
 
 import log
 
@@ -9,10 +10,11 @@ import log
 def load(path):
     try:
         file = open(resource_path(path))
-        data = yaml.safe_load(file)
+        data = yaml.load(file, Loader=yamlordereddictloader.Loader)
         file.close()
     except IOError:
         log.fail("missing data file")
+        raise
     else:
         return data
 

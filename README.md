@@ -42,20 +42,24 @@ CLI
 
 | required | flag | shorthand | purpose | unit | default |
 | :---: | :---: | :---: | --- | :---: | :---: |
-| YES | --basedist | -bd | SLED's *base* distance | nm | |
-| YES | --basealt | -ba | SLED's *base* MSL altitude | ft | |
-| YES | --trackalt | -ta | SLED's *track* MSL altitude | ft | |
-| YES | --releasealt | -ra | SLED's *release* MSL altitude | ft | |
-| YES | --abortalt | -aa | SLED's *abort* MSL altitude | ft | |
-| YES | --minalt | -ma | SLED's *mimimum* MSL altitude | ft | |
-| YES | --aimdist | -ad | aim-off distance | ft | |
-| | --filename | -fn | name of the generated `.xml` file | | "sled" |
+| Y | --basedist | -bd | SLED's *base* distance | nm | |
+| Y | --basealt | -ba | SLED's *base* MSL altitude | ft | |
+| Y | --trackalt | -ta | SLED's *track* MSL altitude | ft | |
+| Y | --releasealt | -ra | SLED's *release* MSL altitude | ft | |
+| Y | --abortalt | -aa | SLED's *abort* MSL altitude | ft | |
+| Y | --minalt | -ma | SLED's *mimimum* MSL altitude | ft | |
+| Y | --aimdist | -ad | *aim-off* distance | ft | |
 | | --leewayalt | -la | available +/- leeway for the SLED's *base*, *track*, and *release* altitudes | ft | 200ft |
 | | --leewayhdg | -lh | available +/- leeway for the range's attack heading at the SLED's *base* altitude | ° | 10° |
 | | --attackhdg | -ah | required attack heading, overrides the range's default | ° | |
 | | --declutter | -dc | declutter the target area by rendering the *abort* and *minimum* altitudes as planes | | |
+| | --filename | -fn | name of the generated `.xml` file | | "sled" |
 
-Help and version number are also available from the CLI itself by providing the `-h` (`--help`) or the `-v` (`--version`) flag respectively.
+| flag | shorthand | purpose |
+| :---: | :---: | --- |
+| --help | -h | show the help message |
+| --version | -v | show the version number |
+| --debug | -d | show more exhaustive error messages |
 
 FRAMEWORK
 ======
@@ -66,6 +70,7 @@ Development framework powered by [python](https://www.python.org/) and the follo
 + [dicttoxml](https://pypi.python.org/pypi/dicttoxml)
 + [geopy](https://github.com/geopy/geopy)
 + [PyYAML](http://pyyaml.org/)
++ [yamlordereddictloader](https://pypi.python.org/pypi/yamlordereddictloader/0.1.1)
 
 BUILD
 ======
@@ -77,6 +82,8 @@ BUILD
 `.exe` versioning powered by [Simple Version Resource Tool](https://www.codeproject.com/articles/37133/simple-version-resource-tool-for-windows):
 
 `verpatch.exe taser.exe /va /langid 0x0809 /high x.x.x-x /s desc "Generate Tacview .xml files to render SLED profiles." /s product "TAcview SlEds Renderer" /s (c) "CC Attribution-ShareAlike 4.0" /pv "x.x.x.x"`
+
+Automated `make.bat` and `test.bat` scripts can be ran from the root folder.
 
 DATA
 ======

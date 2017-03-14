@@ -16,14 +16,20 @@ try:
     args.convert()
 except SystemExit:
     raise
-except:
-    log.fail("an error occured")
+except Exception as ex:
+    if args.DEBUG:
+        log.fail("an error occured: "+str(ex))
+    else:
+        log.fail("an error occured")
     sys.exit()
 
 log.tentative("generating "+args.FILE+".xml")
 try:
     tacview.generate()
     log.success(args.FILE+".xml generated")
-except:
-    log.fail("an error occured")
+except Exception as ex:
+    if args.DEBUG:
+        log.fail("an error occured: "+str(ex))
+    else:
+        log.fail("an error occured")
     sys.exit()
