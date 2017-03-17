@@ -1,9 +1,6 @@
 # python
 __pycache__
 
-# generated
-*.xml
-
 #build
 *.ico
 *.spec

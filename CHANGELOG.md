@@ -55,3 +55,7 @@
 + test script
 + xml nodes ordering
 + debug option
+
+#### 0.10.1
+
++ automated scripts fix

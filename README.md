@@ -40,6 +40,12 @@ CLI
 
 `target` is the name of the target, with dashes "-" replacing spaces " " (e.g. "West-Bomb-Circle")
 
+| flag | shorthand | purpose |
+| :---: | :---: | --- |
+| --help | -h | show the help message |
+| --version | -v | show the version number |
+| --debug | -d | show more exhaustive error messages |
+
 | required | flag | shorthand | purpose | unit | default |
 | :---: | :---: | :---: | --- | :---: | :---: |
 | Y | --basedist | -bd | SLED's *base* distance | nm | |
@@ -54,12 +60,6 @@ CLI
 | | --attackhdg | -ah | required attack heading, overrides the range's default | ° | |
 | | --declutter | -dc | declutter the target area by rendering the *abort* and *minimum* altitudes as planes | | |
 | | --filename | -fn | name of the generated `.xml` file | | "sled" |
-
-| flag | shorthand | purpose |
-| :---: | :---: | --- |
-| --help | -h | show the help message |
-| --version | -v | show the version number |
-| --debug | -d | show more exhaustive error messages |
 
 FRAMEWORK
 ======
