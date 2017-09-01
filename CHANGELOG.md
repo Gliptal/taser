@@ -1,61 +1,86 @@
-#### 0.1.0
+#### [1.0.0-rel1](https://github.com/Gliptal/taser/releases/tag/1.0.0-rel1) | *2017-09-01*
 
-+ project skeleton
+- **added:**
+-- coordinates program mode
+- **changed:**
+-- documentation
+-- automated scripts refactoring
+-- code refactoring
+-- arguments logic
 
-#### 0.2.0
+#### 0.10.1 | *2017-03-17*
 
-+ targets data
-+ argument parsing
-+ arguments checking
+- **fixed:**
+-- automated scripts
 
-#### 0.3.0
+#### 0.10.0 | *2017-03-14*
 
-+ units conversions
-+ xml template
-+ wire output
+- **added:**
+-- test script
+-- make script
+-- xml nodes ordering
+-- debug argument
 
-#### 0.4.0
+#### [0.9.0-beta3](https://github.com/Gliptal/taser/releases/tag/0.9.0-beta3) | *2017-03-06*
 
-+ altitude blocks output
+- **added:**
+-- aim-off distance argument
+- **fixed:**
+-- wire origin
+-- heading
 
-#### 0.5.0
+#### [0.8.0-beta2](https://github.com/Gliptal/taser/releases/tag/0.8.0-beta2) | *2017-03-06*
 
-+ code refactoring
-+ coordinates shifter
-+ leeway parameters
+- **added:**
+-- declutter argument
+- **fixed:**
+-- wire angle
+-- heading
 
-#### 0.6.0-beta1
+#### 0.7.0 | *2017-02-24*
 
-+ usage documentation
-+ minor bugfixes
-+ heading fix
-+ heading override
-+ conventional ranges data
-+ better rendering
+- **changed:**
+-- better arguments
 
-#### 0.7.0
+#### [0.6.0-beta1](https://github.com/Gliptal/taser/releases/tag/0.6.0-beta1) | *2017-02-24*
 
-+ better usage flags
+- **added:**
+-- documentation
+-- ranges data
+-- heading override argument
+- **changed:**
+-- better rendering
+- **fixed:**
+-- heading
 
-#### 0.8.0-beta2
+#### 0.5.0 | *2017-02-23*
 
-+ wire angle fix
-+ heading fix
-+ declutter option
+- **added:**
+-- coordinates shifting
+-- leeway arguments
+- **changed:**
+-- code refactoring
 
-#### 0.9.0-beta3
+#### 0.4.0 | *2017-02-23*
 
-+ wire origin fix
-+ aim-off distance option
-+ heading fix
+- **added:**
+-- altitude blocks output
 
-#### 0.10.0
+#### 0.3.0 | *2017-02-22*
 
-+ make script
-+ test script
-+ xml nodes ordering
-+ debug option
+- **added:**
+-- output template
+-- wire output
+-- units conversions
 
-#### 0.10.1
+#### 0.2.0 | *2017-02-22*
 
-+ automated scripts fix
+- **added:**
+-- ranges template
+-- arguments parsing
+-- arguments validation
+
+#### 0.1.0 | *2017-02-22*
+
+- **added:**
+-- project skeleton

@@ -1,161 +1,130 @@
+import lang.en as lang
+import lang.prog as prog
+
 import argparse
-
-import calc
-import data
-import log
+import types
+import utils
 
 
-DEBUG = None
-RANGE = None
+MAIN   = None
+WIRE   = None
+SLED   = None
 TARGET = None
-FILE = None
-LEEWAY_ALT = None
-LEEWAY_HDG = None
-ATTACK_HDG = None
-BASE_DIST = None
-BASE_ALT = None
-TRACK_ALT = None
-RELEASE_ALT = None
-ABORT_ALT = None
-MIN_ALT = None
-AIM_DIST = None
+
 
 def parse():
-    global DEBUG
-    global RANGE
+    global MAIN
+    global WIRE
+    global SLED
     global TARGET
-    global FILE
-    global LEEWAY_ALT
-    global LEEWAY_HDG
-    global ATTACK_HDG
-    global DECLUTTER
-    global BASE_DIST
-    global BASE_ALT
-    global TRACK_ALT
-    global RELEASE_ALT
-    global ABORT_ALT
-    global MIN_ALT
-    global AIM_DIST
 
-    parser = argparse.ArgumentParser(description="generate .xml files to visually render SLED attack profiles in the Tacview 3D environment", formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=30))
-    parser.add_argument("-v", "--version", action="version", version="0.10.0")
+    parser = argparse.ArgumentParser(description=lang.docs.MAIN, formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=48))
+    parser.add_argument("-v", "--version", action="version", version=prog.VERSION)
+    parser.add_argument("-d", "--debug", action="store_true", help=lang.docs.FLAG_D)
+    parser.add_argument("-f", "--filename", type=str, default="sled", help=lang.docs.FLAG_F, metavar=":str")
+    parser.add_argument("-c", "--declutter", action="store_true", help=lang.docs.FLAG_C)
 
-    parser.add_argument("range", type=str, help="the range containing the attacked target")
-    parser.add_argument("target", type=str, help="the attacked target")
+    optional_options = parser.add_argument_group(title=lang.docs.OPTIONAL)
+    optional_options.add_argument("-ah", "--attackhdg", type=_heading,      default=None, help=lang.docs.FLAG_AH, metavar=":°")
+    optional_options.add_argument("-lh", "--leewayhdg", type=_angle,        default=10,   help=lang.docs.FLAG_LH, metavar=":°")
+    optional_options.add_argument("-la", "--leewayalt", type=_positive_int, default=200,  help=lang.docs.FLAG_LA, metavar=":ft")
 
-    optional_options = parser.add_argument_group("optional other parameters")
-    optional_options.add_argument("-d", "--debug", action="store_true", help="show more exhaustive error messages")
-    optional_options.add_argument("-fn", "--filename", type=str, help="name of the generated .xml file [default: \"sled\"]", metavar="str", default="sled")
-    optional_options.add_argument("-la", "--leewayalt", type=_positive_int, help="available +/- leeway for the SLED's base, track, and release altitudes (in feet) [default: 200ft]", metavar="ft", default=200)
-    optional_options.add_argument("-lh", "--leewayhdg", type=_angle, help="available +/- leeway for the range's attack heading at the SLED's base altitude (in degrees) [default: 10°]", metavar="°", default=10)
-    optional_options.add_argument("-ah", "--attackhdg", type=_heading, help="required attack heading, overrides the range's default (in degrees)", metavar="°", default=None)
-    optional_options.add_argument("-dc", "--declutter", action="store_true", help="declutter the target area by rendering the abort and minimum altitudes as planes")
+    required_options = parser.add_argument_group(title=lang.docs.REQUIRED)
+    required_options.add_argument("-ad", "--aimdist",    required=True, type=_positive_int, help=lang.docs.FLAG_AD, metavar=":ft")
+    required_options.add_argument("-bd", "--basedist",   required=True, type=_positive_int, help=lang.docs.FLAG_BD, metavar=":ft")
+    required_options.add_argument("-ba", "--basealt",    required=True, type=_positive_int, help=lang.docs.FLAG_BA, metavar=":ft")
+    required_options.add_argument("-ta", "--trackalt",   required=True, type=_positive_int, help=lang.docs.FLAG_TA, metavar=":ft")
+    required_options.add_argument("-ra", "--releasealt", required=True, type=_positive_int, help=lang.docs.FLAG_RA, metavar=":ft")
+    required_options.add_argument("-aa", "--abortalt",   required=True, type=_positive_int, help=lang.docs.FLAG_AA, metavar=":ft")
+    required_options.add_argument("-ma", "--minalt",     required=True, type=_positive_int, help=lang.docs.FLAG_MA, metavar=":ft")
 
-    required_options = parser.add_argument_group("required SLED parametes")
-    required_options.add_argument("-bd", "--basedist", type=_positive_int, help="base distance (in nautical miles)", metavar="nm", required=True)
-    required_options.add_argument("-ba", "--basealt", type=_positive_float, help="base altitude (in feet MSL)", metavar="ft", required=True)
-    required_options.add_argument("-ta", "--trackalt", type=_positive_float, help="track altitude (in feet MSL)", metavar="ft", required=True)
-    required_options.add_argument("-ra", "--releasealt", type=_positive_float, help="release altitude (in feet MSL)", metavar="ft", required=True)
-    required_options.add_argument("-aa", "--abortalt", type=_positive_float, help="abort altitude (in feet MSL)", metavar="ft", required=True)
-    required_options.add_argument("-ma", "--minalt", type=_positive_float, help="minimum altitude (in feet MSL)", metavar="ft", required=True)
-    required_options.add_argument("-ad", "--aimdist", type=_positive_float, help="aim-off distance (in feet)", metavar="ft", required=True)
+    subparsers = parser.add_subparsers(title=lang.docs.MODE, dest="mode")
+    parser_range = subparsers.add_parser("range", help=lang.docs.MODE_RANGE)
+    parser_coords = subparsers.add_parser("coords", help=lang.docs.MODE_COORDS)
+
+    parser_range.add_argument("code",       type=str,           help=lang.docs.MODE_RANGE_CODE)
+    parser_range.add_argument("target",     type=str,           help=lang.docs.MODE_RANGE_TARGET)
+    parser_coords.add_argument("latitude",  type=str,           help=lang.docs.MODE_COORDS_LAT)
+    parser_coords.add_argument("longitude", type=str,           help=lang.docs.MODE_COORDS_LON)
+    parser_coords.add_argument("altitude",  type=_positive_int, help=lang.docs.MODE_COORDS_ALT)
 
     args = parser.parse_args()
 
-    DEBUG = args.debug
-    RANGE = args.range
-    TARGET = args.target
-    FILE = args.filename
-    LEEWAY_ALT = args.leewayalt
-    LEEWAY_HDG = args.leewayhdg
-    ATTACK_HDG = args.attackhdg
-    DECLUTTER = args.declutter
-    BASE_DIST = args.basedist
-    BASE_ALT = args.basealt
-    TRACK_ALT = args.trackalt
-    RELEASE_ALT = args.releasealt
-    ABORT_ALT = args.abortalt
-    MIN_ALT = args.minalt
-    AIM_DIST = args.aimdist
+    MAIN = types.SimpleNamespace(MODE=args.mode, DEBUG=args.debug, FILENAME=args.filename, DECLUTTER=args.declutter)
+    WIRE = types.SimpleNamespace(ATTACK_HDG=args.attackhdg, LEEWAY_HDG=args.leewayhdg, LEEWAY_ALT=args.leewayalt)
+    SLED = types.SimpleNamespace(AIM_DIST=args.aimdist, BASE_DIST=args.basedist, BASE_ALT=args.basealt, TRACK_ALT=args.trackalt, RELEASE_ALT=args.releasealt, ABORT_ALT=args.abortalt, MIN_ALT=args.minalt)
+    if MAIN.MODE == "range":
+        TARGET = types.SimpleNamespace(RANGE=args.code, TARGET=args.target)
+    elif MAIN.MODE == "coords":
+        TARGET = types.SimpleNamespace(COORD_LAT=args.latitude, COORD_LON=args.longitude, ALTITUDE=args.altitude)
+
 
 def check_range():
-    global RANGE
+    global TARGET
 
-    ranges = data.load("data/ranges.yaml")
-
+    ranges = utils.data.load("data/ranges.yaml")
     found = False
     for item in ranges:
-        if RANGE == item["name"]:
-            RANGE = item
+        if TARGET.RANGE == item["code"]:
+            TARGET.RANGE = item
             found = True
             break
 
     if not found:
-        log.fail("no such range \""+RANGE+"\"")
-        raise Exception
+        raise ValueError("range", TARGET.RANGE)
+
 
 def check_target():
     global TARGET
 
-    ranges = data.load("data/ranges.yaml")
+    ranges = utils.data.load("data/ranges.yaml")
 
     found = False
-    for item in RANGE["targets"]:
-        if TARGET == item["name"]:
-            TARGET = item
+    for item in TARGET.RANGE["targets"]:
+        if TARGET.TARGET == item["name"]:
+            TARGET.TARGET = item
             found = True
             break
 
     if not found:
-        log.fail("no such target \""+TARGET+"\" in range \""+RANGE["name"]+"\"")
-        raise Exception
+        raise ValueError("target", TARGET.TARGET, TARGET.RANGE["code"])
+
 
 def convert():
-    global LEEWAY_ALT
-    global ATTACK_HDG
-    global BASE_DIST
-    global BASE_ALT
-    global TRACK_ALT
-    global RELEASE_ALT
-    global ABORT_ALT
-    global MIN_ALT
-    global AIM_DIST
+    global WIRE
+    global SLED
 
-    LEEWAY_ALT = calc.ft_to_m(LEEWAY_ALT)
-    if ATTACK_HDG is not None:
-        ATTACK_HDG = calc.thdg_to_mhdg(ATTACK_HDG)
-    BASE_DIST = calc.ft_to_m(BASE_DIST)
-    BASE_ALT = calc.ft_to_m(BASE_ALT)
-    TRACK_ALT = calc.ft_to_m(TRACK_ALT)
-    RELEASE_ALT = calc.ft_to_m(RELEASE_ALT)
-    ABORT_ALT = calc.ft_to_m(ABORT_ALT)
-    MIN_ALT = calc.ft_to_m(MIN_ALT)
-    AIM_DIST = calc.ft_to_m(AIM_DIST)
+    if WIRE.ATTACK_HDG is not None:
+        WIRE.ATTACK_HDG = utils.calc.thdg_to_mhdg(WIRE.ATTACK_HDG)
+    WIRE.LEEWAY_ALT  = utils.calc.ft_to_m(WIRE.LEEWAY_ALT)
+    SLED.AIM_DIST    = utils.calc.ft_to_m(SLED.AIM_DIST)
+    SLED.BASE_DIST   = utils.calc.ft_to_m(SLED.BASE_DIST)
+    SLED.BASE_ALT    = utils.calc.ft_to_m(SLED.BASE_ALT)
+    SLED.TRACK_ALT   = utils.calc.ft_to_m(SLED.TRACK_ALT)
+    SLED.RELEASE_ALT = utils.calc.ft_to_m(SLED.RELEASE_ALT)
+    SLED.ABORT_ALT   = utils.calc.ft_to_m(SLED.ABORT_ALT)
+    SLED.MIN_ALT     = utils.calc.ft_to_m(SLED.MIN_ALT)
+
 
 def _positive_int(value):
     number = int(value)
-    if number < 0:
-        raise argparse.ArgumentTypeError("number must be positive")
+    if not number >= 0:
+        raise argparse.ArgumentTypeError(lang.error.INVALID_INT)
 
     return number
 
-def _positive_float(value):
-    number = float(value)
-    if number < 0:
-        raise argparse.ArgumentTypeError("number must be positive")
-
-    return number
 
 def _heading(value):
     number = int(value)
-    if number < 0 or number > 359:
-        raise argparse.ArgumentTypeError("heading must be between 0° and 359°")
+    if not (number >= 0 and number <= 359):
+        raise argparse.ArgumentTypeError(lang.error.INVALID_HEADING)
 
     return number
 
+
 def _angle(value):
     number = int(value)
-    if number < 0 or number > 45:
-        raise argparse.ArgumentTypeError("entry leeway must be between 0° and 45°")
+    if not (number >= 0 and number <= 30):
+        raise argparse.ArgumentTypeError(lang.error.INVALID_ANGLE)
 
     return number

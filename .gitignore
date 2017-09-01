@@ -6,5 +6,5 @@ __pycache__
 *.spec
 verpatch.exe
 
-#privacy
+#private
 ranges.yaml

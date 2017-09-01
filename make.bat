@@ -1,22 +1,30 @@
 @ECHO OFF
 
-DEL dist\taser.exe 2> nul
+DEL   dist\taser.exe 2> nul
 START /WAIT pyinstaller --clean --workpath="build" --distpath="dist" --specpath="dist" --add-data="../source/data;data" --onefile --icon="dist/icon.ico" source/taser.py
-START /WAIT dist/verpatch.exe dist/taser.exe /va /langid 0x0809 /high %1 /s desc "Generate Tacview .xml files to render SLED profiles." /s product "TAcview SlEds Renderer" /s (c) "CC Attribution-ShareAlike 4.0" /pv %2
+START /WAIT dist/verpatch.exe dist/taser.exe /va /langid 0x0809 /high %1 /s desc "Generate Tacview .xml files to render SLED profiles." /s product "TAcview SLEDs Renderer" /s copyright "CC Attribution-ShareAlike 4.0" /pv %2
 RMDIR /S /Q build 2> nul
+
 IF EXIST dist\taser.exe (
-    DEL test\generated.xml 2> nul
-    CD dist
-    START /WAIT taser.exe 64C West-Bomb-Circle -bd 6039 -ba 9800 -ta 7400 -ra 6200 -aa 5700 -ma 4035 -ad 640 -lh 10 -dc -fn ../test/generated
-    CD ..\test
-    FC correct.xml generated.xml > nul 2> nul
+    CD    dist
+
+    DEL   ..\test\generated.xml 2> nul
+    START /WAIT taser.exe -d -f ../test/generated -c -lh 10 -ad 640 -bd 6039 -ba 9800 -ta 7400 -ra 6200 -aa 5700 -ma 4035 range 64C West-Bomb-Circle
+    FC    ..\test\correct.xml ..\test\generated.xml > nul 2> nul
     IF %ERRORLEVEL% EQU 0 (
-        ECHO [+]    success
+        ECHO [+]    "range" success
+    ) ELSE (
+        ECHO [-]    "range" generating
     )
-    ELSE (
-        ECHO [-]    generating
+
+    DEL   ..\test\generated.xml 2> nul
+    START /WAIT taser.exe -d -f ../test/generated -c -ah 355 -lh 10 -ad 640 -bd 6039 -ba 9800 -ta 7400 -ra 6200 -aa 5700 -ma 4035 coords 36.40.51.N 115.40.26.W 3035
+    FC    ..\test\correct.xml ..\test\generated.xml > nul 2> nul
+    IF %ERRORLEVEL% EQU 0 (
+        ECHO [+]    "coords" success
+    ) ELSE (
+        ECHO [-]    "coords" fail
     )
-    CD ..
 ) ELSE (
-    ECHO [-]    freezing
+    ECHO [-]    packaging
 )
